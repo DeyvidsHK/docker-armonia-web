@@ -16,17 +16,18 @@ class GetCategory(BaseModel):
     ListCategory: Optional[List[ListCategory]]
 
 def get_category_db():
-    try:
-        connection_result = create_db_connection()
+
+    connection_result = create_db_connection()
+
+    if connection_result.success:
         conn = connection_result.connection
 
         query = select(categoria)
-        result = conn.execute(query)
-        rows = result.fetchall()
+        result = conn.execute(query).fetchall()
 
         category_list = [
             {'id_categoria': item.id_categoria, 'nombre': item.nombre}
-            for item in rows
+            for item in result
         ]
 
         if category_list:
@@ -40,10 +41,10 @@ def get_category_db():
             "totalItems": len(category_list),
             "ListCategory": category_list
         }
-    except SQLAlchemyError as e:
+    else:
         return {
-            "item": False,
-            "message": f"Error en la conexión a la base de datos: {str(connection_result.error_message)}",
-            "totalItems": 0,
-            "ListCategory": []
-        }
+        "item": False,
+        "message": f"Error en la conexión a la base de datos: {str(connection_result.error_message)}",
+        "totalItems": 0,
+        "ListCategory": []
+    }
