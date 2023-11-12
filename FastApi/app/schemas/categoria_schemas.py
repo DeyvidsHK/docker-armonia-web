@@ -10,7 +10,7 @@ class ListCategory(BaseModel):
     nombre: Optional[str]
 
 class GetCategory(BaseModel):
-    item: bool
+    hasCategory: bool
     totalItems: int
     message: str
     ListCategory: Optional[List[ListCategory]]
@@ -36,14 +36,14 @@ def get_category_db():
             message = "No hay categorías"
 
         return {
-            "item": bool(category_list),
+            "hasCategory": bool(category_list),
             "message": message,
             "totalItems": len(category_list),
             "ListCategory": category_list
         }
     else:
         return {
-        "item": False,
+        "hasCategory": False,
         "message": f"Error en la conexión a la base de datos: {str(connection_result.error_message)}",
         "totalItems": 0,
         "ListCategory": []
