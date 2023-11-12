@@ -1,0 +1,7 @@
+# requirements.txt
+fastapi==0.68.0
+uvicorn[standard]
+sqlalchemy==1.4.22
+mysql-connector-python
+httpx
+requests

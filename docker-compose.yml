@@ -1,0 +1,50 @@
+version: "3.1"
+services:
+    db:
+        image: mysql
+        ports: 
+            - "3308:3306"
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_DATABASE: armonia
+            MYSQL_PASSWORD: test
+            MYSQL_ROOT_PASSWORD: test
+            MYSQL_CHARSET: utf8mb4
+            MYSQL_COLLATION: utf8mb4_unicode_ci
+        volumes:
+            - ./dump:/docker-entrypoint-initdb.d
+            - ./conf:/etc/mysql/conf.d
+            - ./persistent:/var/lib/mysql
+        networks:
+            - default
+    www:
+        build: .
+        ports: 
+            - "1066:80"
+        volumes:
+            - ./www/:/var/www/html
+        links:
+            - db
+        networks:
+            - default
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links: 
+            - db:db
+        ports:
+            - 1067:80
+        environment:
+            MYSQL_USER: root
+            MYSQL_PASSWORD: test
+            MYSQL_ROOT_PASSWORD: test
+    core_api:
+        container_name: "fast-api-container"
+        build:
+            context: ./FastApi/
+            dockerfile: Dockerfile
+        volumes:
+        - ./FastAPI/app:/FastAPI/app
+        ports:
+        - "3059:8000"
+volumes:
+    persistent:

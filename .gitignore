@@ -1,0 +1,6 @@
+persistent/
+/FastApi/app/__pycache__
+/FastApi/app/config/__pycache__
+/FastApi/app/models/__pycache__
+/FastApi/app/routes/__pycache__
+/FastApi/app/schemas/__pycache__

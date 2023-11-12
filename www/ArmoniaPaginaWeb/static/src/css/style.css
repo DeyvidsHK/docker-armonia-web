@@ -1,0 +1,238 @@
+
+/* Importando estilo de letra */
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300;0,400;0,600;1,500&display=swap');
+
+:root{
+    --blaco : #ffffff ; 
+    --negro : #212121; 
+    --primario : #ffc107; 
+}
+
+*{
+    font-family: 'Urbanist', sans-serif;
+}
+
+p{
+    font-weight: 600;
+}
+/* Estilos para pantallas más pequeñas, como dispositivos móviles */
+@media (max-width: 768px) {
+    .navbar-toggler {
+        color: #fff; /* Cambia el color del botón en el menú de navegación para hacerlo visible en fondos oscuros */
+    }
+
+    /* Otros estilos específicos para pantallas pequeñas */
+}
+
+.modificar{
+    padding-top: 40px;
+}
+
+/* Imagen en computadora */
+.imagen {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+.justificar{
+    text-align: justify;
+}
+
+/* Color de la navegacion */
+.nav-color{
+    background-color: white;
+    /* backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px);  */
+}
+
+#historia{
+    background-image: linear-gradient( #d83c25,#ff6728,#ff6728, #f8c600, #f2de09,#81c200) !important;
+}
+
+/*Musica */
+
+.cont {
+    display: block;
+    background-image: linear-gradient(#81c200,#14af39,#81c200,#ff6728) !important;
+}
+
+.musica {
+    margin: 0 80px; 
+    text-align: center;
+    border-radius: 10px;
+}
+.musica p { 
+    font-size: 35px;
+}
+
+.musica h3{
+    font-size: 35px;
+    font-weight: bold;
+}
+
+
+@media (min-width: 768px ){
+    .musica {
+        margin: 0 150px;
+        text-align: center;
+        border-radius: 10px;
+    }
+    .musica-lista {
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        column-gap: 25px;
+        justify-content: center;
+        align-items: center;
+    }
+    .cancion__d{
+        padding-bottom: 90px;
+    }
+    .musica p { 
+        font-size: 40px;
+    }
+    .musica h3{
+        font-size: 30px;
+        font-weight: bold;
+    }
+    .musica-lista h3{
+        font-size: 30px;
+        font-weight: bold;
+    }
+    .division{ 
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+    }
+    
+}
+
+.musica:last-child{
+    padding-bottom: 20px;
+}
+
+.musica-lista {
+    display: grid;
+    row-gap: 20px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.musica-lista img{
+    border-radius: 10%;
+    background-position: center;
+    background-size: cover;
+    width: 80%;
+}
+.musica-lista h3{
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-size: 35px;
+    font-weight: bold;
+}
+.musica-lista a {
+    text-decoration: none;
+    font-size: 18px;
+    transition: font-size 0.5s;
+    color: white;
+}
+.musica-lista a:hover{
+    font-size: 20px;
+    font-weight: bold;
+}
+.texto__d, .texto__c, .texto__s{
+    margin-top: 15px;
+}
+/*Mas Musica */ 
+
+.division{ 
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    column-gap: 30px;
+}
+
+.division__s, .division__y{
+    font-size: 180px;
+}
+.etiqueta{
+    text-decoration: none;
+    color: black;
+    font-size: 28px;
+    transition: font-size 1s;
+}
+.etiqueta:hover{
+    font-size: 32px;
+    font-weight: bold;
+}
+
+/*Audio */ 
+#reproductor {
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+#reproductor button {
+    background-color: var(--primario);
+    color: white;
+    border: none;
+    border-radius: 50%; 
+    width: 50px;
+    height: 50px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+    margin: 10px; /
+}
+
+/*Contactos */
+
+.blur-background {
+    backdrop-filter: blur(15px); /* Ajusta el valor para cambiar la intensidad del desenfoque */
+    backdrop-filter: blur(15px);
+    background-color: rgba(243, 243, 243, 0.2);
+    padding: 20px; /* Añade espaciado para que el contenido no esté pegado al borde del formulario */
+    border-radius: 20px;
+}
+
+.img-fondo{
+    background-image: url(../img/Historia.jpg)!important;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin: auto;
+    padding-bottom: 2rem;
+}
+
+
+/* Footer */ 
+.modificar{
+    padding-top: 50px; /*centrar la p */
+}
+.iconos{
+    justify-content: center;
+    align-items: center;
+}
+
+.iconos a{
+    padding: 5px;
+    margin: 20px 0;
+    transition: font-size 1s;
+}
+
+.iconos a:hover{
+    font-size: 20px;
+}
+.iconos p { 
+    color: white;
+    font-size: 13px;
+}
+
+/* tienda */
+.boton-container {
+    margin: 0 auto;
+}
