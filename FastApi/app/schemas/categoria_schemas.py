@@ -4,6 +4,13 @@ from app.models.categoria import categoria
 from sqlalchemy import select, insert, select, or_
 from pydantic import BaseModel
 
+class CreateCategory(BaseModel):
+    nombre: str
+
+class ResponseCreateCategory(BaseModel):
+    success: bool
+    message: str
+
 class ListCategory(BaseModel):
     id_categoria: int
     nombre: Optional[str]
@@ -13,6 +20,69 @@ class GetCategory(BaseModel):
     totalItems: int
     message: str
     categoryList: Optional[List[ListCategory]]
+
+from sqlalchemy import select
+
+def validate_existing_category(conn, category_name):
+    # Crear un objeto de selección
+    query = select(categoria).where(categoria.c.nombre == category_name)
+
+    # Ejecutar la consulta
+    result = conn.execute(query)
+
+    # Verificar si se encontró alguna fila
+    existing_category = result.fetchone()
+
+    if existing_category:
+        return {
+            "success": True,
+            "message": "La categoría ya existe en la base de datos. Por favor, elija otro nombre de categoría."
+        }
+    else:
+        return {
+            "success": False,
+            "message": "La categoría no existe en la base de datos. Puede usar este nombre para una nueva categoría."
+        }
+
+
+def create_category_db(CreateCategory):
+    connection_result = create_db_connection()
+
+    if connection_result.success:
+        conn = connection_result.connection
+
+        existing_category = validate_existing_category(conn, CreateCategory.nombre)
+
+        if existing_category["success"]:
+            return existing_category
+        else:
+            if not CreateCategory.nombre:
+                return {
+                    "success": False,
+                    "message": "Ingrese un nombre a la categoria, no tienen que estar vacios."
+                }
+
+            # Insertar el nuevo cliente en la base de datos
+            # Después
+            query = insert(categoria).values(nombre=CreateCategory.nombre)
+            result = conn.execute(query)
+
+            # Verificar si la inserción fue exitosa
+            if result.rowcount > 0:
+                return {
+                    "success": True,
+                    "message": "Categoria creado exitosamente."
+                }
+            else:
+                return {
+                    "success": False,
+                    "message": "Error al crear la categoria. Por favor, inténtelo de nuevo."
+                }
+    else:
+        return {
+                    "success": False,
+                    "message": "Error en la connexion a la base de datos."
+                }
 
 def get_category_db():
 

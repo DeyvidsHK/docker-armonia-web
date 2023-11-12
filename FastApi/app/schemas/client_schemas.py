@@ -69,10 +69,7 @@ def create_client_db(CreateClient):
         existing_user = validate_existing_user(CreateClient)
 
         if existing_user["success"]:
-            return {
-                "success": False,
-                "message": existing_user["message"]
-            }
+            return existing_user
         else:
             # Verificar campos no vacíos
             if not CreateClient.nombre or not CreateClient.correo or not CreateClient.usuario or not CreateClient.contrasena:
