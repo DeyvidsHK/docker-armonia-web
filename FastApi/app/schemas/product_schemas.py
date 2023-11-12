@@ -1,7 +1,7 @@
 from app.config.connection import create_db_connection
 from typing import Optional, List
 from app.models.product import product
-from sqlalchemy import select
+from sqlalchemy import select, insert, select, or_
 from pydantic import BaseModel
 
 class ListProduct(BaseModel):

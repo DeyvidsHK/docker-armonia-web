@@ -5,3 +5,4 @@ sqlalchemy==1.4.22
 mysql-connector-python
 httpx
 requests
+bcrypt
