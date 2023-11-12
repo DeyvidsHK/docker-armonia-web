@@ -3,7 +3,6 @@ from typing import Optional, List
 from app.models.categoria import categoria
 from sqlalchemy import select
 from pydantic import BaseModel
-from sqlalchemy.exc import SQLAlchemyError
 
 class ListCategory(BaseModel):
     id_categoria: int
@@ -13,7 +12,7 @@ class GetCategory(BaseModel):
     hasCategory: bool
     totalItems: int
     message: str
-    ListCategory: Optional[List[ListCategory]]
+    categoryList: Optional[List[ListCategory]]
 
 def get_category_db():
 
@@ -39,12 +38,12 @@ def get_category_db():
             "hasCategory": bool(category_list),
             "message": message,
             "totalItems": len(category_list),
-            "ListCategory": category_list
+            "categoryList": category_list
         }
     else:
         return {
         "hasCategory": False,
         "message": f"Error en la conexión a la base de datos: {str(connection_result.error_message)}",
         "totalItems": 0,
-        "ListCategory": []
+        "categoryList": []
     }
