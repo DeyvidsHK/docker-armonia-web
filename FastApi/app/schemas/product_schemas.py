@@ -1,5 +1,4 @@
 from app.config.connection import create_db_connection
-from app.config.connection import create_db_connection
 from typing import Optional, List
 from app.models.product import product
 from sqlalchemy import select
