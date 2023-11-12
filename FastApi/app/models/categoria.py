@@ -1,7 +1,7 @@
 # models/categorias.py
-from sqlalchemy import Table, Column, Integer, String, MetaData
+from sqlalchemy import Table, Column, Integer, String
+from app.config.connection import metadata
 
-metadata = MetaData()
 
 # Define la tabla usando la Metadata obtenida
 categoria = Table('Categorias', metadata,

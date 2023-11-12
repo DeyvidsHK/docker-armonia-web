@@ -1,6 +1,9 @@
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.exc import SQLAlchemyError
 
+
+metadata = MetaData()
+
 class DBConnectionResult:
     def __init__(self, success, connection=None, metadata=None, error_message=None):
         self.success = success
@@ -20,9 +23,8 @@ def create_db_connection():
     try:
         engine = create_engine(URL_DATABASE)
         conn = engine.connect()
-        metadata = MetaData()
 
-        return DBConnectionResult(success=True, connection=conn, metadata=metadata)
+        return DBConnectionResult(success=True, connection=conn)
 
     except SQLAlchemyError as e:
         # Manejar el error aquí
