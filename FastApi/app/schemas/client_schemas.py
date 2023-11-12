@@ -2,7 +2,7 @@ from app.config.connection import create_db_connection
 from typing import Optional, List
 from app.models.client import client
 from sqlalchemy import select, insert, select, or_
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 from app.config.encryption import hash_password
 
 class CreateClient(BaseModel):
