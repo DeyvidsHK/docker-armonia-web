@@ -1,20 +1,46 @@
 <?php
 
-    session_start();
+session_start();
 
-    include ("conexion_lg.php");
+$usuario = $_POST['correo'];
+$contrasena = $_POST['contrasena'];
 
-    $correo = $_POST['correo'];
-    $contrasena = $_POST['contrasena'];
-    $contrasena = hash('sha512', $contrasena);
-    $validar_lg = mysqli_query($conexion, "SELECT * FROM clientes WHERE correo= '$correo' and contrasena='$contrasena' ") ; 
+// Datos para enviar a la API
+$data = array(
+    "usuario" => $usuario,
+    "contrasena" => $contrasena
+);
 
-    if (mysqli_num_rows($validar_lg)>0){
-        $_SESSION["usuario"] = "$correo";
-        header("location: ../tienda.php"); 
+$options = array(
+    'http' => array(
+        'header' => "Content-type: application/json\r\n",
+        'method' => 'POST',
+        'content' => json_encode($data),
+    ),
+);
+
+$context = stream_context_create($options);
+$api_url = 'http://core_api:8000/api/Client/Login'; // Reemplaza con la URL correcta de tu API
+
+// Usa file_get_contents dentro de un bloque try-catch
+try {
+    $response = file_get_contents($api_url, false, $context);
+    
+    // Verifica la respuesta de la API
+    if ($response === FALSE) {
+        // Error al hacer la solicitud a la API
+        die('Error al conectarse a la API');
+    }
+
+    // Decodifica la respuesta JSON
+    $result = json_decode($response, true);
+
+    // Verifica si la autenticación fue exitosa según la respuesta de la API
+    if ($result['success']) {
+        $_SESSION["usuario"] = $usuario;
+        header("location: ../tienda.php");
         exit();
-        
-    }else{
+    } else {
         echo "
             <script>
                 alert('Usuario no registrado');
@@ -23,4 +49,8 @@
         ";
         exit();
     }
+} catch (Exception $e) {
+    // Manejo de excepciones
+    die('Error: ' . $e->getMessage());
+}
 ?>
