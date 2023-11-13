@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from app.config.encryption import hash_password, verify_password
 
 class LoginCredentials(BaseModel):
-    usuario: str
+    correo: str
     contrasena: str
 
 class CreateClient(BaseModel):
@@ -34,7 +34,7 @@ class GetClient(BaseModel):
 
 def validate_user(conn, user):
 
-    query = select(client).where(client.c.usuario == user.usuario)
+    query = select(client).where(client.c.correo == user.correo)
     result = conn.execute(query)
     existing_client = result.fetchone()
 

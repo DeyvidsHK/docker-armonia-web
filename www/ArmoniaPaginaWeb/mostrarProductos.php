@@ -47,6 +47,4 @@ if ($productos['hasProduct']) {
     echo "No hay productos disponibles en este momento.";
 }
 
-// Cierra la conexión
-mysqli_close($conexion);
 ?>
