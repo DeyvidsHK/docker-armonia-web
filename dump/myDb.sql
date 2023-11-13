@@ -43,6 +43,8 @@ CREATE TABLE DetallesVenta (
 
 INSERT INTO Categorias (nombre) VALUES ('Polos'),('Casacas'),('Gorras'),('Bebidas'),('Discos');
 
+SET NAMES 'utf8mb4';
+
 INSERT INTO Productos (nombre, imagen, descripcion, precio, stock, id_categoria)
 VALUES
     ('Polo Blanco', 'tienda-1.png', 'Descripcion breve', 29.99, 50, 1),

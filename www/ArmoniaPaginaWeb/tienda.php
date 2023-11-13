@@ -23,7 +23,7 @@ if (isset($_SESSION['carrito'])) {
 <html lang="es">
 
 <head>
-	<meta charset="UTF-8">
+	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Tienda | Amonia 10</title>
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
