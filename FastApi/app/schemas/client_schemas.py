@@ -96,7 +96,7 @@ def validate_existing_user(conn, CreateClient):
     else:
         return {
             "success": False,
-            "message": "El correo electrónico ya está registrado. Por favor, elija otro correo."
+            "message": "El cliente no existe."
         }
 
 def create_client_db(CreateClient):

@@ -48,10 +48,10 @@ def create_category_db(CreateCategory):
 
     if connection_result.success:
         if not CreateCategory.nombre:
-                return {
-                    "success": False,
-                    "message": "Ingrese un nombre a la categoria, no tienen que estar vacios."
-                }
+            return {
+                "success": False,
+                "message": "Ingrese un nombre a la categoria, no tienen que estar vacios."
+            }
         else:
             conn = connection_result.connection
 
@@ -64,7 +64,6 @@ def create_category_db(CreateCategory):
                 }
             else:
                 # Insertar el nuevo cliente en la base de datos
-                # Después
                 query = insert(categoria).values(nombre=CreateCategory.nombre)
                 result = conn.execute(query)
 
