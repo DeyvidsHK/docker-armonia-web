@@ -1,27 +1,40 @@
 <?php
-include 'conexion.php';
-
 $baseURL = "static/src/img/";
 
 // Consulta para obtener los productos
-$query = "SELECT * FROM Productos";
-$resultado = mysqli_query($conexion, $query);
+$apiURL = "http://core_api:8000/api/Product/GetProduct";
+$apiResponse = file_get_contents($apiURL);
 
-// Verifica si hay resultados
-if ($resultado) {
+// Verifica la respuesta antes de decodificarla
+$productos = json_decode($apiResponse, true);
+
+// Verifica si hay productos y si `hasProduct` es verdadero
+if ($productos['hasProduct']) {
     // Muestra los productos
-    while ($row = mysqli_fetch_assoc($resultado)) {
+    foreach ($productos['productList'] as $producto) {
         ?>
         <div class="card m-4" style="width: 18rem;">
             <form id="formulario" name="formulario" method="post" action="cart.php">
-                <input name="precio" type="hidden" id="precio" value="<?php echo $row['precio']; ?>" />
-                <input name="titulo" type="hidden" id="titulo" value="<?php echo $row['nombre']; ?>" />
+                <?php if (isset($producto['precio'])) { ?>
+                    <input name="precio" type="hidden" id="precio" value="<?php echo $producto['precio']; ?>" />
+                <?php } ?>
+                <?php if (isset($producto['nombre'])) { ?>
+                    <input name="titulo" type="hidden" id="titulo" value="<?php echo $producto['nombre']; ?>" />
+                <?php } ?>
                 <input name="cantidad" type="hidden" id="cantidad" value="1" class="pl-2" />
-                <img src="<?php echo $baseURL . $row['imagen']; ?>" class="card-img-top pt-3" alt="...">
+                <?php if (isset($producto['imagen'])) { ?>
+                    <img src="<?php echo $baseURL . $producto['imagen']; ?>" class="card-img-top pt-3" alt="...">
+                <?php } ?>
                 <div class="card-body d-flex flex-column align-items-center justify-content-center">
-                    <h5 class="card-title text-center"><?php echo $row['nombre']; ?></h5>
-										<p class="card-text"><?php echo $row['descripcion']; ?></p>
-                    <p class="card-text">S/<?php echo $row['precio']; ?></p>
+                    <?php if (isset($producto['nombre'])) { ?>
+                        <h5 class="card-title text-center"><?php echo $producto['nombre']; ?></h5>
+                    <?php } ?>
+                    <?php if (isset($producto['descripcion'])) { ?>
+                        <p class="card-text"><?php echo $producto['descripcion']; ?></p>
+                    <?php } ?>
+                    <?php if (isset($producto['precio'])) { ?>
+                        <p class="card-text">S/<?php echo $producto['precio']; ?></p>
+                    <?php } ?>
                     <div class="boton-container">
                         <button class="btn btn-primary" type="submit"><i class="fas fa-shopping-cart"></i> Añadir al carrito</button>
                     </div>
@@ -31,7 +44,7 @@ if ($resultado) {
         <?php
     }
 } else {
-    echo "Error en la consulta: " . mysqli_error($conexion);
+    echo "No hay productos disponibles en este momento.";
 }
 
 // Cierra la conexión
