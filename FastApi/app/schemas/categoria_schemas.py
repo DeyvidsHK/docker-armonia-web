@@ -21,8 +21,6 @@ class GetCategory(BaseModel):
     message: str
     categoryList: Optional[List[ListCategory]]
 
-from sqlalchemy import select
-
 def validate_existing_category(conn, category_name):
     # Crear un objeto de selección
     query = select(categoria).where(categoria.c.nombre == category_name)
