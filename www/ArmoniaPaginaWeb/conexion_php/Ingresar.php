@@ -2,12 +2,12 @@
 
 session_start();
 
-$usuario = $_POST['correo'];
+$correo = $_POST['correo'];
 $contrasena = $_POST['contrasena'];
 
 // Datos para enviar a la API
 $data = array(
-    "usuario" => $usuario,
+    "correo" => $correo,
     "contrasena" => $contrasena
 );
 
@@ -37,7 +37,7 @@ try {
 
     // Verifica si la autenticación fue exitosa según la respuesta de la API
     if ($result['success']) {
-        $_SESSION["usuario"] = $usuario;
+        $_SESSION["usuario"] = $correo;
         header("location: ../tienda.php");
         exit();
     } else {
