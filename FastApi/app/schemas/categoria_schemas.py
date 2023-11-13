@@ -36,7 +36,7 @@ def validate_existing_category(conn, category_name):
     if existing_category:
         return {
             "success": True,
-            "message": "La categoría ya existe en la base de datos. Por favor, elija otro nombre de categoría."
+            "message": f"La categoría {category_name} ya existe en la base de datos. Por favor, elija otro nombre de categoría."
         }
     else:
         return {
@@ -49,35 +49,38 @@ def create_category_db(CreateCategory):
     connection_result = create_db_connection()
 
     if connection_result.success:
-        conn = connection_result.connection
-
-        existing_category = validate_existing_category(conn, CreateCategory.nombre)
-
-        if existing_category["success"]:
-            return existing_category
-        else:
-            if not CreateCategory.nombre:
+        if not CreateCategory.nombre:
                 return {
                     "success": False,
                     "message": "Ingrese un nombre a la categoria, no tienen que estar vacios."
                 }
+        else:
+            conn = connection_result.connection
 
-            # Insertar el nuevo cliente en la base de datos
-            # Después
-            query = insert(categoria).values(nombre=CreateCategory.nombre)
-            result = conn.execute(query)
+            existing_category = validate_existing_category(conn, CreateCategory.nombre)
 
-            # Verificar si la inserción fue exitosa
-            if result.rowcount > 0:
-                return {
-                    "success": True,
-                    "message": "Categoria creado exitosamente."
-                }
-            else:
+            if existing_category["success"]:
                 return {
                     "success": False,
-                    "message": "Error al crear la categoria. Por favor, inténtelo de nuevo."
+                    "message": existing_category["message"]
                 }
+            else:
+                # Insertar el nuevo cliente en la base de datos
+                # Después
+                query = insert(categoria).values(nombre=CreateCategory.nombre)
+                result = conn.execute(query)
+
+                # Verificar si la inserción fue exitosa
+                if result.rowcount > 0:
+                    return {
+                        "success": True,
+                        "message": "Categoria creado exitosamente."
+                    }
+                else:
+                    return {
+                        "success": False,
+                        "message": "Error al crear la categoria. Por favor, inténtelo de nuevo."
+                    }
     else:
         return {
                     "success": False,

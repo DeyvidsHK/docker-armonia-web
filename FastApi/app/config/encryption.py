@@ -9,6 +9,9 @@ def hash_password(password: str) -> bytes:
     
     return hashed_password
 
-def verify_password(password: str, hashed_password: bytes) -> bool:
+def verify_password(password: str, hashed_password: bytes) -> dict:
     # Verifica la contraseña proporcionada con el hash almacenado
-    return bcrypt.checkpw(password.encode('utf-8'), hashed_password)
+    if bcrypt.checkpw(password.encode('utf-8'), hashed_password):
+        return {"success": True, "message": "Contraseña verificada correctamente."}
+    else:
+        return {"success": False, "message": "La contraseña proporcionada no es válida."}

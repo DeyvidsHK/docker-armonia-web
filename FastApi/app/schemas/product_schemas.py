@@ -4,6 +4,18 @@ from app.models.product import product
 from sqlalchemy import select, insert, select, or_
 from pydantic import BaseModel
 
+class CreateProduct(BaseModel):
+    nombre: str
+    descripcion: str
+    precio: float
+    stock: int
+    imagen: str
+    id_categoria: int
+
+class ResponseCreateProduct(BaseModel):
+    success: bool
+    message: str
+
 class ListProduct(BaseModel):
     id_producto: int
     nombre: Optional[str]
@@ -18,6 +30,77 @@ class GetProduct(BaseModel):
     totalItems: int
     message: str
     productList: Optional[List[ListProduct]]
+
+
+def validate_existing_product(conn, CreateProduct):
+    query = select(product).where(product.c.nombre == CreateProduct.nombre)
+    result = conn.execute(query)
+
+    existing_product = result.fetchone()
+
+    if existing_product:
+        return {
+                "success": True,
+                "message": f"El producto '{existing_product.nombre}' ya existe."
+                }
+    else:
+        return {
+                "success": False,
+                "message": "El producto no existe."
+                }
+
+def create_product_db(CreateProduct):
+
+    connection_result = create_db_connection()
+
+    if connection_result.success:
+        if not CreateProduct.nombre or not CreateProduct.descripcion or not CreateProduct.precio or not CreateProduct.stock or not CreateProduct.imagen or not CreateProduct.id_categoria:
+            return {
+                "success": False,
+                "message": "Los campos no tienen que estar vacios."
+                }
+        else:
+            conn = connection_result.connection
+
+            existing_product = validate_existing_product(conn, CreateProduct)
+
+            if existing_product["success"]:
+                return {
+                    "success": False,
+                    "message": existing_product["message"]
+                }
+            else:
+                # Producto no existe en la base de datos y se tiene que crear.
+                new_product = {
+                    "nombre": CreateProduct.nombre,
+                    "descripcion": CreateProduct.descripcion,
+                    "precio": CreateProduct.precio,
+                    "stock": CreateProduct.stock,
+                    "imagen": CreateProduct.imagen,
+                    "id_categoria": CreateProduct.id_categoria
+                }
+
+                # Insertar el nuevo cliente en la base de datos
+                query = insert(product).values(new_product)
+                result = conn.execute(query)
+
+                # Verificar si la inserción fue exitosa
+                if result.rowcount > 0:
+                    return {
+                        "success": True,
+                        "message": "Producto creado exitosamente."
+                    }
+                else:
+                    return {
+                        "success": False,
+                        "message": "Error al crear el producto. Por favor, inténtelo de nuevo."
+                    }
+    else:
+        return {
+            "success": False,
+            "message": "Error en la connexion a la base de datos."
+        }
+
 
 def get_product_db():
 
