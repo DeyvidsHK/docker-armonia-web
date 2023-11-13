@@ -43,7 +43,7 @@ services:
             context: ./FastApi/
             dockerfile: Dockerfile
         volumes:
-        - ./FastAPI/app:/FastAPI/app
+        - ./FastApi/app:/FastAPI/app
         ports:
         - "3059:8000"
 volumes:
