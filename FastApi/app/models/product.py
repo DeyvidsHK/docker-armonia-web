@@ -8,6 +8,6 @@ product = Table('Productos', metadata,
                  Column('descripcion', String),
                  Column('precio', Float),
                  Column('stock', Integer),
-                 Column('imagen', LargeBinary),
+                 Column('imagen', String),
                  Column('id_categoria', Integer)
                 )
