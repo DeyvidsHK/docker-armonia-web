@@ -9,7 +9,7 @@ class CreateProduct(BaseModel):
     descripcion: str
     precio: float
     stock: int
-    imagen: str
+    imagen: bytes
     id_categoria: int
 
 class ResponseCreateProduct(BaseModel):
