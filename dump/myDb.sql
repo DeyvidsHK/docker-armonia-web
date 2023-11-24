@@ -26,7 +26,6 @@ CREATE TABLE Ventas (
     id_venta INT AUTO_INCREMENT PRIMARY KEY,
     fecha_venta DATE,
     id_cliente INT,
-    estado VARCHAR(50),
     monto_total DECIMAL(10, 2),
     FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente)
 );
