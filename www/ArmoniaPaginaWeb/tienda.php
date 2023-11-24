@@ -1,22 +1,47 @@
 <?php
 session_start();
 
+// Verificar si el usuario está intentando iniciar sesión
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $usuario_demo = "usuario_demo";
+    $contrasena_demo = "contrasena_demo";
+
+    // Verificar las credenciales
+    if ($_POST["usuario"] == $usuario_demo && $_POST["contrasena"] == $contrasena_demo) {
+        // Iniciar sesión
+        $_SESSION["usuario"] = $usuario_demo;
+    } else {
+        $mensaje_error = "Credenciales incorrectas";
+    }
+}
+
+// Verificar si el usuario está autenticado
+if (isset($_SESSION["usuario"])) {
+    // El usuario está autenticado, muestra el contenido protegido
+    $usuario_autenticado = true;
+} else {
+    // El usuario no está autenticado
+    $usuario_autenticado = false;
+}
+
 $carrito_mio = isset($_SESSION['carrito']) ? $_SESSION['carrito'] : array();
 $_SESSION['carrito'] = $carrito_mio;
 
-// Inicializa $totalcantidad
 $totalcantidad = 0;
 
 // Cuenta los elementos en el carrito
 if (isset($_SESSION['carrito'])) {
-	foreach ($carrito_mio as $item) {
-		if ($item != NULL) {
-			// Asumiendo que el elemento del carrito tiene una clave "cantidad"
-			$total_cantidad = $item['cantidad'];
-			$totalcantidad += $total_cantidad;
-		}
-	}
+    foreach ($carrito_mio as $item) {
+        if ($item != NULL) {
+            // Asumiendo que el elemento del carrito tiene una clave "cantidad"
+            $total_cantidad = $item['cantidad'];
+            $totalcantidad += $total_cantidad;
+        }
+    }
 }
+
+// Modificación para mostrar el nombre del usuario
+$nombre_usuario = isset($_SESSION["nombre_usuario"]) ? $_SESSION["nombre_usuario"] : "Invitado";
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +67,7 @@ if (isset($_SESSION['carrito'])) {
 			<div class="container">
 				<a href="index.html" class="navbar-brand text-white">Armonia 10</a>
 				<button type="button" class="navbar-toggler bg-white" data-bs-target="#navbarNav" data-bs-toggle="collapse"
-					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle Navbar">
+						aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle Navbar">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarNav">
@@ -51,7 +76,14 @@ if (isset($_SESSION['carrito'])) {
 							<a href="index.html" class="nav-link navegacion text-white">Inicio</a>
 						</li>
 						<li class="nav-item">
-							<a href="login.php" class="nav-link navegacion text-white">Registrar</a>
+							<?php if (!$usuario_autenticado): ?>
+								<a href="login.php" class="nav-link navegacion text-white">Iniciar Sesión</a>
+							<?php else: ?>
+								<span class="nav-link navegacion text-white">
+									Bienvenido, <?php echo $_SESSION["usuario"]; ?> 
+								</span>
+								<a href="logout.php" class="nav-link navegacion text-white">Cerrar Sesión</a>
+							<?php endif; ?>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" data-bs-toggle="modal" data-bs-target="#modal_cart" style="color: red;">Carrito
@@ -129,25 +161,23 @@ if (isset($_SESSION['carrito'])) {
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-						<?php
-						// Verifica si el usuario está autenticado
-							
-							if (!isset($_SESSION["usuario"])) {
-								echo "
-									<a type='button' class='btn btn-primary' 
-									onclick=\"alert('Por favor, inicia sesión para realizar el pago'); 
-												window.location.href = '/ArmoniaPaginaWeb/login.php';\">
-									Realizar Pagos
-									</a>
-								";
-							} else {
-								// Si el usuario está autenticado, muestra el botón normalmente
-								echo "<a id='realizarPagoBtn' type='button' class='btn btn-primary' data-bs-dismiss='modal'>Realizar Pago</a>";
-							}
-						?>
-
+					<?php
+					// Verifica si el usuario está autenticado
+					if (!$usuario_autenticado) {
+						echo "
+							<a type='button' class='btn btn-primary' 
+							onclick=\"alert('Por favor, inicia sesión para realizar el pago'); 
+										window.location.href = '/ArmoniaPaginaWeb/login.php';\">
+							Realizar Pagos
+							</a>
+						";
+					} else {
+						// Si el usuario está autenticado, muestra el botón normalmente
+						echo "<a id='realizarPagoBtn' type='button' class='btn btn-primary' data-bs-dismiss='modal'>Realizar Pago</a>";
+					}
+					?>
 					<a type="button" class="btn btn-primary" href="borrarcarro.php">Vaciar carrito</a>
-                </div>
+				</div>
 			</div>
 		</div>
 	</div>
