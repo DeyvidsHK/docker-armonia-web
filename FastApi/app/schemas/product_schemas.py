@@ -22,7 +22,7 @@ class ListProduct(BaseModel):
     descripcion: str
     precio: float
     stock: int
-    imagen: str
+    imagen: bytes
     id_categoria: int
 
 class GetProduct(BaseModel):
@@ -57,8 +57,8 @@ def create_product_db(CreateProduct):
         if not CreateProduct.nombre or not CreateProduct.descripcion or not CreateProduct.precio or not CreateProduct.stock or not CreateProduct.imagen or not CreateProduct.id_categoria:
             return {
                 "success": False,
-                "message": "Los campos no tienen que estar vacios."
-                }
+                "message": "Los campos no deben estar vacíos."
+            }
         else:
             conn = connection_result.connection
 
@@ -76,7 +76,7 @@ def create_product_db(CreateProduct):
                     "descripcion": CreateProduct.descripcion,
                     "precio": CreateProduct.precio,
                     "stock": CreateProduct.stock,
-                    "imagen": CreateProduct.imagen,
+                    "imagen": CreateProduct.imagen,  # Asegúrate de que la imagen esté codificada en bytes
                     "id_categoria": CreateProduct.id_categoria
                 }
 
@@ -98,7 +98,7 @@ def create_product_db(CreateProduct):
     else:
         return {
             "success": False,
-            "message": "Error en la connexion a la base de datos."
+            "message": "Error en la conexión a la base de datos."
         }
 
 
