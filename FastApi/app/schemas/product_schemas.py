@@ -22,7 +22,7 @@ class ListProduct(BaseModel):
     descripcion: str
     precio: float
     stock: int
-    imagen: bytes
+    imagen: str
     id_categoria: int
 
 class GetProduct(BaseModel):

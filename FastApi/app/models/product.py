@@ -1,5 +1,5 @@
 # models/product.py
-from sqlalchemy import Table, Column, Integer, String, Float
+from sqlalchemy import Table, Column, Integer, String, Float, LargeBinary
 from app.config.connection import metadata
 
 product = Table('Productos', metadata,

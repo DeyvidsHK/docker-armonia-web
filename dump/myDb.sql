@@ -17,7 +17,7 @@ CREATE TABLE Productos (
     descripcion TEXT,
     precio DECIMAL(10, 2),
     stock INT,
-    imagen LONGBLOB,
+    imagen VARCHAR(250),
     id_categoria INT,
     FOREIGN KEY (id_categoria) REFERENCES Categorias(id_categoria)
 );
