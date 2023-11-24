@@ -21,6 +21,7 @@ if ($productos['hasProduct']) {
                 <?php if (isset($producto['nombre'])) { ?>
                     <input name="titulo" type="hidden" id="titulo" value="<?php echo $producto['nombre']; ?>" />
                 <?php } ?>
+                <input name="id_producto" type="hidden" id="id_producto" value="<?php echo $producto['id_producto']; ?>" />
                 <input name="cantidad" type="hidden" id="cantidad" value="1" class="pl-2" />
                 <?php if (isset($producto['imagen'])) { ?>
                     <img src="<?php echo $baseURL . $producto['imagen']; ?>" class="card-img-top pt-3" alt="...">

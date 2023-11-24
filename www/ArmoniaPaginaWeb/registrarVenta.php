@@ -27,7 +27,7 @@ try {
     $monto_total = 0;
 
     foreach ($_SESSION['carrito'] as $item) {
-        $id_producto = obtenerIdProducto($item['titulo'], $conexion);
+        $id_producto = $item['id_producto'];
         $cantidad = $item['cantidad'];
         $precio_total = $item['precio'] * $cantidad;
 
@@ -79,17 +79,5 @@ try {
     mysqli_close($conexion);
 }
 
-function obtenerIdProducto($nombre_producto, $conexion)
-{
-    $query = "SELECT id_producto FROM productos WHERE nombre LIKE ?";
-    $stmt = mysqli_prepare($conexion, $query);
-    $nombre_producto_like = '%' . $nombre_producto . '%';
-    mysqli_stmt_bind_param($stmt, 's', $nombre_producto_like);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $id_producto);
-    mysqli_stmt_fetch($stmt);
-    mysqli_stmt_close($stmt);
 
-    return $id_producto;
-}
 ?>
