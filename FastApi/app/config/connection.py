@@ -29,5 +29,4 @@ def create_db_connection():
     except SQLAlchemyError as e:
         # Manejar el error aquí
         error_message = f"Error al conectarse a la base de datos: {str(e)}"
-        print(error_message)
         return DBConnectionResult(success=False, error_message=error_message)
