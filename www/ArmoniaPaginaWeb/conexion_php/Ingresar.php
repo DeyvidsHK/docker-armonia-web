@@ -38,6 +38,7 @@ try {
     // Verifica si la autenticación fue exitosa según la respuesta de la API
     if ($result['success']) {
         $_SESSION["usuario"] = $correo;
+        $_SESSION["id_cliente"] = $result['id_cliente'];
         header("location: ../tienda.php");
         exit();
     } else {
