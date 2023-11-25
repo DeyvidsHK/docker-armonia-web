@@ -11,7 +11,20 @@ $productos = json_decode($apiResponse, true);
 // Verifica si hay productos y si `hasProduct` es verdadero
 if ($productos['hasProduct']) {
     ?>
-    <table class="table">
+    <div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">NOMBRE</th>
+                <th scope="col">DESCRIPCIÓN</th>
+                <th scope="col">PRECIO</th>
+                <th scope="col">STOCK</th>
+                <th scope="col">IMAGEN</th>
+                <th scope="col">CATEGORÍA</th>
+                <th scope="col">ACCIONES</th>
+            </tr>
+        </thead>
         <tbody>
             <?php
             foreach ($productos['productList'] as $producto) {
@@ -30,7 +43,7 @@ if ($productos['hasProduct']) {
                 $categoriaData = json_decode($categoriaResponse, true);
 
                 $nombreCategoria = ''; // Inicializar el nombre de la categoría
-
+        
                 if ($categoriaData['hasCategory']) {
                     foreach ($categoriaData['categoryList'] as $categoria) {
                         if ($categoria['id_categoria'] == $idCategoria) {
@@ -60,6 +73,7 @@ if ($productos['hasProduct']) {
             ?>
         </tbody>
     </table>
+    </div>
     <?php
 } else {
     echo "No hay productos disponibles en este momento.";
